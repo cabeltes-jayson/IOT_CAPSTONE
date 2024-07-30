@@ -14,7 +14,7 @@ const LandingScreen = () => {
   const navigation = useNavigation();
 
   const proceedBtn = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Main");
   };
 
   return (
