@@ -1,16 +1,38 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/Ionicons";
+import colors from "../assets/const/colors";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+  const openDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient style={styles.linearBg} colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.5)"]}>
-        <View>
-          <Text>HomeScreen</Text>
+      <ImageBackground
+        style={styles.linearBg}
+        source={require("../assets/img/bg.png")}
+      >
+        <TouchableOpacity onPress={openDrawer}>
+          <Icon name="menu" color={colors.primary} size={25} />
+        </TouchableOpacity>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text> HOME SCREEN </Text>
         </View>
-      </LinearGradient>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -22,6 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   linearBg: {
-    flex: 1
-  }
+    flex: 1,
+    padding: 20,
+  },
 });

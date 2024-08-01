@@ -16,6 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/Ionicons";
 import colors from "./assets/const/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -25,7 +26,7 @@ function CustomDrawerContent(props) {
     <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient
         style={{ flex: 1 }}
-        colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.7)"]}
+        colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.6)"]}
       >
         <DrawerContentScrollView {...props}>
           <View style={styles.drawerHeader}>
@@ -51,7 +52,7 @@ function CustomDrawerContent(props) {
               )}
             /> */}
             <View style={{ flexDirection: "row", gap: 30 }}>
-              <Icon name="bookmarks" size={20} color={colors.white} />
+              <Icon name="layers" size={20} color={colors.white} />
               <Text
                 style={{
                   color: colors.white,
@@ -113,7 +114,11 @@ function HomeDrawer() {
         options={{
           title: "Alert",
           drawerIcon: () => (
-            <Icon name="alert-circle" size={20} color={colors.white} />
+            <MaterialCommunityIcons
+              name="bell-alert"
+              size={20}
+              color={colors.white}
+            />
           ),
         }}
       />
