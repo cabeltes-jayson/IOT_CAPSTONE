@@ -1,24 +1,44 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Modal,
-  ImageBackground,
-} from "react-native";
-import React, { useState } from "react";
-import { LinearGradient } from "expo-linear-gradient";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Modal, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
 import colors from "../assets/const/colors";
 import { useNavigation } from "@react-navigation/native";
+import { supabase } from "./supabaseClient"; // Import Supabase client
 
 const AlertScreen = () => {
   const navigation = useNavigation();
   const backBtn = () => {
     navigation.goBack();
   };
+
   const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState({ temperature: null, turbidity_ntu: null, tds_ppm: null, pH: null });
+
+  const fetchData = async () => {
+    try {
+      const { data: sensor_data, error } = await supabase
+        .from('sensor_data')
+        .select('temperature, turbidity_ntu, tds_ppm, pH')
+        .order('timestamp', { ascending: false })
+        .limit(1);
+
+      if (error) {
+        console.error("Error fetching data:", error.message); // Change this to log the error message
+      } else {
+        setData(sensor_data[0] || {});
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    const interval = setInterval(fetchData, 700); // Fetch data every 10 seconds
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -48,11 +68,16 @@ const AlertScreen = () => {
             backgroundColor: colors.white,
             borderTopRightRadius: 25,
             borderTopLeftRadius: 25,
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <Text style={{ alignItems: "center", justifyContent: "center" }}>
-            Details
-          </Text>
+          <Text style={{ fontSize: 20, color: colors.primary }}>Details</Text>
+            <Text>TURBIDITY: {data.turbidity_ntu !== null ? data.turbidity_ntu : 'Loading...'}</Text>
+            <Text>TDS: {data.tds_ppm !== null ? data.tds_ppm : 'Loading...'}</Text>
+            <Text>TEMPERATURE: -127°C</Text>
+            {/* {data.temperature !== null ? data.temperature : 'Loading...'} */}
+            <Text>PH: {data.pH !== null ? data.pH : 'Loading...'}</Text>
         </View>
 
         {/* MODAL VIEW */}
@@ -66,13 +91,11 @@ const AlertScreen = () => {
 
               <View
                 style={{
-                  // flex: 1,
                   gap: 10,
                   backgroundColor: colors.white,
                   paddingVertical: 14,
                   paddingHorizontal: 14,
                   borderRadius: 24,
-                  // marginBottom: 24,
                   gap: 20,
                 }}
               >
@@ -168,7 +191,6 @@ const AlertScreen = () => {
                   borderRadius: 25,
                   justifyContent: "center",
                   alignItems: "center",
-                  // marginTop: 20,
                   paddingVertical: 15,
                   paddingHorizontal: 80,
                 }}
@@ -199,7 +221,6 @@ const styles = StyleSheet.create({
   },
   linearBg: {
     flex: 1,
-    // padding: 20,
   },
   centeredView: {
     flex: 1,
@@ -208,8 +229,6 @@ const styles = StyleSheet.create({
     margin: 25,
   },
   modalView: {
-    // flex: 1,
-    // margin: 20,
     backgroundColor: colors.primary,
     borderRadius: 24,
     padding: 20,
@@ -226,15 +245,12 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   innerView: {
-    // flex: 1,
     borderRadius: 14,
-    // backgroundColor: colors.primary,
   },
   modalText: {
     color: colors.white,
     fontSize: 23,
     textAlign: "center",
-    // margin: 15,
     fontWeight: "700",
   },
   paramDiv: {
@@ -243,7 +259,6 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   parameter: {
-    // backgroundColor: colors.primaryLower,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -258,7 +273,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     justifyContent: "center",
     alignItems: "center",
-    // left: 35,
     padding: 10,
     borderRadius: 1000,
     borderWidth: 1,
