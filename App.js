@@ -154,6 +154,7 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Landing" component={LandingScreen} />
         <Stack.Screen name="Main" component={HomeDrawer} />
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Alert" component={AlertScreen} />
         <Stack.Screen name="About" component={AboutUs} />
         <Stack.Screen name="History" component={HistoryScreen} />

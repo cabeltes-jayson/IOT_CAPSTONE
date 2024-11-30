@@ -23,15 +23,16 @@ const AlertScreen = () => {
   const [data, setData] = useState({
     temperature: null,
     turbidity_ntu: null,
-    tds_ppm: null,
+    tss: null,
     pH: null,
+    location: null,
   });
 
   const fetchData = async () => {
     try {
       const { data: sensor_data, error } = await supabase
         .from("sensor_data")
-        .select("temperature, turbidity_ntu, tds_ppm, pH")
+        .select("temperature, tss, tds_ppm, pH, location")
         .order("timestamp", { ascending: false })
         .limit(1);
 
@@ -122,13 +123,13 @@ const AlertScreen = () => {
                   fontWeight: "600",
                 }}
               >
-                Turbidity:
+                TSS:
               </Text>
               <Text
                 style={{ fontSize: 20, color: colors.red, fontWeight: "600" }}
               >
-                {data.turbidity_ntu !== null
-                  ? data.turbidity_ntu
+                {data.tss !== null
+                  ? data.tss
                   : "Loading..."}
               </Text>
             </View>
@@ -291,7 +292,8 @@ const AlertScreen = () => {
                   fontWeight: "600",
                 }}
               >
-                #7000 Lapasan, CDOC
+                {/* #7000 Lapasan, CDOC */}
+                  {data.location !== null ? data.location : "Loading..."}
               </Text>
             </View>
           </View>
