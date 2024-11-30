@@ -3,6 +3,8 @@
     "name": "Waterbenders",
     "slug": "riverMonitor",
     "version": "1.0.0",
+    "sdkVersion": "52.0.0",
+    "newArchEnabled": true, 
     "orientation": "portrait",
     "icon": "./assets/img/logo.png",
     "userInterfaceStyle": "light",

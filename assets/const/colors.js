@@ -4,11 +4,11 @@ export default {
   // dark: "#201520",
   // "dark-light": "#291d1d",
   // light: "#E4DAD0",
-  white: "#ececec",
+  white: "#FFFEFE",
   primaryLower: "rgba(122, 111, 203, 0.5)",
   // "white-smoke": "#b5b5b5",
   // brown: "#673E0F",
   // gray: "#9e9d99",
-  // red: "#a62723",
+  red: "#a62723",
   // accent: '#9b59b6',
 };

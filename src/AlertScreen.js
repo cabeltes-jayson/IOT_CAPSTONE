@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Modal, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  ImageBackground,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
 import colors from "../assets/const/colors";
@@ -13,14 +20,19 @@ const AlertScreen = () => {
   };
 
   const [openModal, setOpenModal] = useState(false);
-  const [data, setData] = useState({ temperature: null, turbidity_ntu: null, tds_ppm: null, pH: null });
+  const [data, setData] = useState({
+    temperature: null,
+    turbidity_ntu: null,
+    tds_ppm: null,
+    pH: null,
+  });
 
   const fetchData = async () => {
     try {
       const { data: sensor_data, error } = await supabase
-        .from('sensor_data')
-        .select('temperature, turbidity_ntu, tds_ppm, pH')
-        .order('timestamp', { ascending: false })
+        .from("sensor_data")
+        .select("temperature, turbidity_ntu, tds_ppm, pH")
+        .order("timestamp", { ascending: false })
         .limit(1);
 
       if (error) {
@@ -57,6 +69,7 @@ const AlertScreen = () => {
           <TouchableOpacity onPress={backBtn}>
             <Icon name="chevron-back" color={colors.primary} size={25} />
           </TouchableOpacity>
+          <Text style={{ color: colors.primary, fontSize: 20 }}>Alert</Text>
           <TouchableOpacity onPress={() => setOpenModal(true)}>
             <Icon name="information-circle" color={colors.primary} size={25} />
           </TouchableOpacity>
@@ -68,16 +81,220 @@ const AlertScreen = () => {
             backgroundColor: colors.white,
             borderTopRightRadius: 25,
             borderTopLeftRadius: 25,
-            justifyContent: "center",
-            alignItems: "center",
+            padding: 25,
+            gap: 20,
           }}
         >
-          <Text style={{ fontSize: 20, color: colors.primary }}>Details</Text>
-            <Text>TURBIDITY: {data.turbidity_ntu !== null ? data.turbidity_ntu : 'Loading...'}</Text>
-            <Text>TDS: {data.tds_ppm !== null ? data.tds_ppm : 'Loading...'}</Text>
-            <Text>TEMPERATURE: -127°C</Text>
-            {/* {data.temperature !== null ? data.temperature : 'Loading...'} */}
-            <Text>PH: {data.pH !== null ? data.pH : 'Loading...'}</Text>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 25,
+                color: colors.primary,
+                fontWeight: "500",
+              }}
+            >
+              {" "}
+              Details{" "}
+            </Text>
+          </View>
+          <View
+            style={{
+              width: "100%",
+              borderBottomWidth: 1,
+              borderBottomColor: colors.primaryLower,
+              paddingVertical: 20,
+              // gap: 15,
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: colors.primaryLower,
+                  fontWeight: "600",
+                }}
+              >
+                Turbidity:
+              </Text>
+              <Text
+                style={{ fontSize: 20, color: colors.red, fontWeight: "600" }}
+              >
+                {data.turbidity_ntu !== null
+                  ? data.turbidity_ntu
+                  : "Loading..."}
+              </Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  fontWeight: "700",
+                  fontStyle: "italic",
+                }}
+              >
+                (Normal: 6.5-8.5)
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              width: "100%",
+              borderBottomWidth: 1,
+              borderBottomColor: colors.primaryLower,
+              paddingVertical: 20,
+              // gap: 15,
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: colors.primaryLower,
+                  fontWeight: "600",
+                }}
+              >
+                TDS:
+              </Text>
+              <Text
+                style={{ fontSize: 20, color: colors.red, fontWeight: "600" }}
+              >
+                {data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
+              </Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  fontWeight: "700",
+                  fontStyle: "italic",
+                }}
+              >
+                (Normal: 6.5-8.5)
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              width: "100%",
+              borderBottomWidth: 1,
+              borderBottomColor: colors.primaryLower,
+              paddingVertical: 20,
+              // gap: 15,
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: colors.primaryLower,
+                  fontWeight: "600",
+                }}
+              >
+                Temp:
+              </Text>
+              <Text
+                style={{ fontSize: 18, color: colors.red, fontWeight: "600" }}
+              >
+                {data.temperature !== null ? data.temperature : "Loading..."}
+              </Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  fontWeight: "700",
+                  fontStyle: "italic",
+                }}
+              >
+                (Normal: 6.5-8.5)
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: colors.primaryLower,
+              paddingVertical: 20,
+              // gap: 15,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: colors.primaryLower,
+                  fontWeight: "600",
+                }}
+              >
+                pH:
+              </Text>
+              <Text
+                style={{ fontSize: 18, color: colors.red, fontWeight: "600" }}
+              >
+                {data.pH !== null ? data.pH : "Loading..."}
+              </Text>
+            </View>
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  fontWeight: "700",
+                  fontStyle: "italic",
+                }}
+              >
+                (Normal: 6.5-8.5)
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: colors.primaryLower,
+              paddingVertical: 20,
+              // gap: 15,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: colors.primaryLower,
+                fontWeight: "600",
+              }}
+            >
+              Location:
+            </Text>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: colors.primary,
+                  fontWeight: "600",
+                }}
+              >
+                #7000 Lapasan, CDOC
+              </Text>
+            </View>
+          </View>
         </View>
 
         {/* MODAL VIEW */}
