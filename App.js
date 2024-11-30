@@ -13,6 +13,7 @@ import {
 } from "@react-navigation/drawer";
 import AlertScreen from "./src/AlertScreen";
 import AboutUs from "./src/AboutUs";
+import HistoryScreen from "./src/HistoryScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/Ionicons";
 import colors from "./assets/const/colors";
@@ -133,6 +134,16 @@ function HomeDrawer() {
           ),
         }}
       />
+      <Drawer.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{
+          title: "History",
+          drawerIcon: () => (
+            <Icon name="time" size={20} color={colors.white} />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -145,6 +156,7 @@ export default function App() {
         <Stack.Screen name="Main" component={HomeDrawer} />
         <Stack.Screen name="Alert" component={AlertScreen} />
         <Stack.Screen name="About" component={AboutUs} />
+        <Stack.Screen name="History" component={HistoryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
