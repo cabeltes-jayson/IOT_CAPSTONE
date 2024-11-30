@@ -22,7 +22,7 @@ const AlertScreen = () => {
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState({
     temperature: null,
-    turbidity_ntu: null,
+    tds_ppm: null,
     tss: null,
     pH: null,
     location: null,
