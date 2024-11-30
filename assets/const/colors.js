@@ -1,7 +1,7 @@
 export default {
   primary: "#7A6FCB",
   secondary: "#94DCF5",
-  // dark: "#201520",
+  dark: "#201520",
   // "dark-light": "#291d1d",
   // light: "#E4DAD0",
   white: "#FFFEFE",
@@ -11,4 +11,8 @@ export default {
   // gray: "#9e9d99",
   red: "#a62723",
   // accent: '#9b59b6',
+  green: "#50C878",
+  low: "#FF9900",
+  normal: "#2B720F",
+  high: "#DC3912",
 };

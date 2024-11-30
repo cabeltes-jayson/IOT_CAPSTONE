@@ -4,14 +4,40 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
+  Image,
+  ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
 import colors from "../assets/const/colors";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import LevelCard from "./LevelCard";
 
 const HomeScreen = () => {
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  useEffect(() => {
+    const tmer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+    return () => clearInterval(tmer);
+  }, []);
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Manila", // Set to the desired timezone
+    month: "short", // Short month format (e.g., NOV)
+    day: "numeric",
+    year: "numeric",
+  })
+    .format(currentDateTime)
+    .toUpperCase();
+
+  const formattedTime = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Manila",
+    timeStyle: "short", // Format for time
+  }).format(currentDateTime);
+
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState("default");
 
@@ -25,16 +51,60 @@ const HomeScreen = () => {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case "tds":
+      case "tss":
         return (
-          <Text style={styles.tabContent}>Total Dissolved Solids Content</Text>
+          <LevelCard
+            label="TSS"
+            value={200}
+            unit="mg/L"
+            formattedDate={formattedDate}
+            formattedTime={formattedTime}
+            min={26} // Minimum acceptable turbidity
+            max={30} // Maximum acceptable turbidity
+          />
         );
       case "temperature":
-        return <Text style={styles.tabContent}>Temperature Content</Text>;
+        return (
+          <Text style={styles.tabContent}>
+            <LevelCard
+              label="Temp"
+              value={33} // Example value
+              unit="°C"
+              date={formattedDate}
+              time={formattedTime}
+              min={26} // Minimum acceptable turbidity
+              max={30} // Maximum acceptable turbidity
+            />
+          </Text>
+        );
       case "ph":
-        return <Text style={styles.tabContent}>pH Levels Content</Text>;
+        return (
+          <Text style={styles.tabContent}>
+            <LevelCard
+              label="pH"
+              value={8} // Example value
+              unit=""
+              date={formattedDate}
+              time={formattedTime}
+              min={6.5}
+              max={8.5}
+            />
+          </Text>
+        );
       default:
-        return <Text style={styles.tabContent}>Turbidity Level Content</Text>;
+        return (
+          <Text style={styles.tabContent}>
+            <LevelCard
+              label="Turbidity"
+              value={120}
+              unit="NTU"
+              date={formattedDate}
+              time={formattedTime}
+              min={0}
+              max={100}
+            />
+          </Text>
+        );
     }
   };
 
@@ -54,36 +124,58 @@ const HomeScreen = () => {
             style={{
               flex: 1,
               marginVertical: 10,
-              justifyContent: "center",
-              alignContent: "center",
+              width: 300,
             }}
           >
             {renderTabContent()}
           </View>
-          <View
+          <LinearGradient
+            colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.1)"]}
             style={{
               alignSelf: "stretch",
-              flex: 2,
-              backgroundColor: "white",
+              flex: 1,
+              backgroundColor: colors.primaryLower,
               marginVertical: 10,
               marginHorizontal: 10,
-              padding: 20,
-              borderRadius: 20,
-              elevation: 5,
+              padding: 15,
+              borderRadius: 25,
             }}
           >
             <View
               style={{
-                flex: 1,
+                // flex: 1,
                 backgroundColor: "white",
-                marginVertical: 15,
+                marginVertical: 10,
                 marginHorizontal: 5,
-                borderRadius: 10,
-                elevation: 5,
+                borderTopRightRadius: 50,
+                borderBottomLeftRadius: 50,
+                elevation: 10,
+                height: 110,
               }}
             >
-              <View style={{ flex: 1 }}>
-                <Text>map/address</Text>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  padding: 20,
+                }}
+              >
+                <Image
+                  style={{ width: 61, height: 70 }}
+                  source={require("../assets/parameters/map.png")}
+                />
+                <Text
+                  style={{
+                    maxWidth: 150,
+                    color: colors.primary,
+                    fontWeight: "600",
+                    fontSize: 18,
+                  }}
+                >
+                  Unnamed Road, West Gate, Cagayan de Oro City
+                </Text>
               </View>
             </View>
             <View style={{ flex: 2 }}>
@@ -96,28 +188,78 @@ const HomeScreen = () => {
                 <TouchableOpacity
                   style={{
                     flex: 1,
-                    backgroundColor: "white",
-                    marginVertical: 10,
+                    backgroundColor: colors.white,
+                    marginVertical: 15,
                     marginHorizontal: 5,
-                    borderRadius: 10,
-                    elevation: 5,
+                    borderTopRightRadius: 25,
+                    borderBottomLeftRadius: 25,
+                    elevation: 10,
                   }}
                   onPress={() => handleTabChange("default")}
                 >
-                  <Text>turbidity level</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      borderTopRightRadius: 25,
+                      borderBottomLeftRadius: 25,
+                      padding: 18,
+                      justifyContent: "space-between",
+                    }}
+                    colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.3)"]}
+                  >
+                    <Image
+                      source={require("../assets/parameters/turbidity.png")}
+                    />
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        fontSize: 15,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      TURBIDITY LEVEL
+                    </Text>
+                    <Text style={{ fontWeight: "800", fontSize: 18 }}>
+                      15 NTU
+                    </Text>
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
                     flex: 1,
-                    backgroundColor: "white",
-                    marginVertical: 10,
+                    backgroundColor: colors.white,
+                    marginVertical: 15,
                     marginHorizontal: 5,
-                    borderRadius: 10,
-                    elevation: 5,
+                    borderTopRightRadius: 25,
+                    borderBottomLeftRadius: 25,
+                    elevation: 10,
                   }}
-                  onPress={() => handleTabChange("tds")}
+                  onPress={() => handleTabChange("tss")}
                 >
-                  <Text>total dissolved solids</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      borderTopRightRadius: 25,
+                      borderBottomLeftRadius: 25,
+                      padding: 18,
+                      justifyContent: "space-between",
+                    }}
+                    colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.3)"]}
+                  >
+                    <Image source={require("../assets/parameters/tss.png")} />
+                    <Text
+                      style={{
+                        fontSize: 11,
+                        fontWeight: "bold",
+                        color: colors.primary,
+                      }}
+                    >
+                      TOTAL SUSPENDED SOLIDS
+                    </Text>
+                    <Text style={{ fontSize: 18, fontWeight: "800" }}>
+                      200 mg/L
+                    </Text>
+                  </View>
                 </TouchableOpacity>
               </View>
               <View
@@ -129,33 +271,75 @@ const HomeScreen = () => {
                 <TouchableOpacity
                   style={{
                     flex: 1,
-                    backgroundColor: "white",
+                    backgroundColor: colors.white,
                     marginVertical: 10,
                     marginHorizontal: 5,
-                    borderRadius: 10,
+                    borderTopRightRadius: 25,
+                    borderBottomLeftRadius: 25,
                     elevation: 5,
                   }}
                   onPress={() => handleTabChange("temperature")}
                 >
-                  <Text>temperature</Text>
+                  <View
+                    style={{
+                      flex: 1,
+
+                      padding: 20,
+                      justifyContent: "space-between",
+                      // backgroundColor: colors.primaryLower,
+                    }}
+                  >
+                    <Image source={require("../assets/parameters/temp.png")} />
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: "bold",
+                        color: colors.primary,
+                      }}
+                    >
+                      TEMPERATURE
+                    </Text>
+                    <Text style={{ fontSize: 18, fontWeight: "800" }}>
+                      33°C
+                    </Text>
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
                     flex: 1,
-                    backgroundColor: "white",
+                    backgroundColor: colors.white,
                     marginVertical: 10,
                     marginHorizontal: 5,
-                    borderRadius: 10,
+                    borderTopRightRadius: 25,
+                    borderBottomLeftRadius: 25,
                     elevation: 5,
                   }}
                   onPress={() => handleTabChange("ph")}
                 >
-                  <Text>pH levels</Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      padding: 20,
+                      justifyContent: "space-between",
+                      // backgroundColor: colors.primaryLower,
+                    }}
+                  >
+                    <Image source={require("../assets/parameters/ph.png")} />
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 15,
+                        color: colors.primary,
+                      }}
+                    >
+                      pH
+                    </Text>
+                    <Text style={{ fontWeight: "800", fontSize: 18 }}>5</Text>
+                  </View>
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
-          <Text> HOME SCREEN </Text>
+          </LinearGradient>
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -170,6 +354,6 @@ const styles = StyleSheet.create({
   },
   linearBg: {
     flex: 1,
-    padding: 20,
+    padding: 10,
   },
 });
