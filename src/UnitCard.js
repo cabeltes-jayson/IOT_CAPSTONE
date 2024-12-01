@@ -17,7 +17,7 @@ const UnitCard = ({ clip, param, value, unit }) => {
       if (value > 50) return colors.high;
       if (value < 50) return colors.low;
       return colors.normal;
-    } else if (param === "TDS") {
+    } else if (param === "Total Dissolved Solids") {
       if (value > 50) return colors.high;
       return colors.normal;
     }

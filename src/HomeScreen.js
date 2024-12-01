@@ -301,7 +301,7 @@ const HomeScreen = () => {
                 >
                   <UnitCard
                     clip={require("../assets/parameters/turbidity.png")}
-                    param="Total Suspended Solids"
+                    param="Total Dissolved Solids"
                     value={data.tss !== null ? data.tss : "Loading..."}
                     unit="PPM"
                   />

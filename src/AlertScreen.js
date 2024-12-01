@@ -6,18 +6,43 @@ import {
   TouchableOpacity,
   Modal,
   ImageBackground,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
 import colors from "../assets/const/colors";
 import { useNavigation } from "@react-navigation/native";
 import { supabase } from "./supabaseClient"; // Import Supabase client
+import ParamAlert from "./ParamAlert";
 
 const AlertScreen = () => {
   const navigation = useNavigation();
   const backBtn = () => {
     navigation.goBack();
   };
+
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Manila", // Set to the desired timezone
+    month: "short", // Short month format (e.g., NOV)
+    day: "numeric",
+    year: "numeric",
+  })
+    .format(currentDateTime)
+    .toUpperCase();
+
+  const formattedTime = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Manila",
+    timeStyle: "short", // Format for time
+  }).format(currentDateTime);
 
   const [openModal, setOpenModal] = useState(false);
   const [data, setData] = useState({
@@ -45,12 +70,12 @@ const AlertScreen = () => {
     const pHStatus = remarkMessage(data.pH, [6.5, 8.5], [6.0, 9.0]); // Normal: 6.5-8.5, Concern: <6.0 or >9.0
     const tempStatus = remarkMessage(data.temperature, [26, 30], [26, 40]); // Normal: 26-30, Concern: >40
     const tdsStatus = remarkMessage(data.tds_ppm, [0, 1000], [0, 2000]); // TDS thresholds remain unchanged
-  
+
     return `TSS ${tssStatus}\nTemperature ${tempStatus}\nTDS ${tdsStatus}\nPH ${pHStatus}`;
-  };  
+  };
 
   // Explanation:
-  // Temperature: gi set nako na abnormal ang >40 kay lets say normal ang 26-30 tas nilahos sa 
+  // Temperature: gi set nako na abnormal ang >40 kay lets say normal ang 26-30 tas nilahos sa
   // 30 basin mu balik ra dayn siya sa normal ranges so ayun more than 40 is abnormal na dayn.
   // same sa other parameters nag set kug gamay lang na kibali extension para sa concern.
 
@@ -59,8 +84,8 @@ const AlertScreen = () => {
   // pH: 6.5-8.5
   // Temperature: 26-30
   // Total Suspended Solids: 50
-  
-  // TDS based on average river 
+
+  // TDS based on average river
   // - Normal: <1000 mg/L (optimal)
   // - Concern: >2000 mg/L (stress on aquatic life)
 
@@ -115,259 +140,104 @@ const AlertScreen = () => {
         <View
           style={{
             flex: 1,
-            backgroundColor: colors.white,
-            borderTopRightRadius: 25,
-            borderTopLeftRadius: 25,
-            padding: 25,
-            gap: 20,
+            alignItems: "center",
+            gap: 15,
+            paddingHorizontal: 20,
           }}
         >
+          <View style={{ alignItems: "center" }}>
+            <Text
+              style={{ fontSize: 25, color: colors.primary, fontWeight: "500" }}
+            >
+              {formattedDate}
+            </Text>
+            <Text
+              style={{ fontSize: 22, color: colors.primary, fontWeight: "400" }}
+            >
+              {formattedTime}
+            </Text>
+          </View>
           <View
             style={{
+              backgroundColor: colors.white,
+              width: 370,
+              height: 210,
+              borderWidth: 2,
+              borderColor: colors.primary,
+              borderRadius: 50,
+              // alignItems: "center",
               justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 25,
-                color: colors.primary,
-                fontWeight: "500",
-              }}
-            >
-              {" "}
-              Details{" "}
-            </Text>
-          </View>
-          <View
-            style={{
-              borderTopWidth: 1,
-              borderTopColor: colors.primaryLower,
-              borderBottomWidth: 1,
-              borderBottomColor: colors.primaryLower,
-              paddingVertical: 20,
-              // gap: 15,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                color: colors.primaryLower,
-                fontWeight: "600",
-              }}
-            >
-              Location:
-            </Text>
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: colors.primary,
-                  fontWeight: "600",
-                  maxWidth: 300,
-                }}
-              >
-                {/* #7000 Lapasan, CDOC */}
-                {data.location !== null ? data.location : "Loading..."}
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              width: "100%",
-              borderBottomWidth: 1,
-              borderBottomColor: colors.primaryLower,
-              paddingVertical: 20,
-              // gap: 15,
-            }}
-          >
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: colors.primaryLower,
-                  fontWeight: "600",
-                }}
-              >
-                TSS:
-              </Text>
-              <Text
-                style={{ fontSize: 20, color: colors.red, fontWeight: "600" }}
-              >
-                {data.tss !== null ? data.tss : "Loading..."}
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  color: colors.primary,
-                  fontWeight: "700",
-                  fontStyle: "italic",
-                }}
-              >
-                (Normal: 6.5-8.5)
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              width: "100%",
-              borderBottomWidth: 1,
-              borderBottomColor: colors.primaryLower,
-              paddingVertical: 20,
-              // gap: 15,
-            }}
-          >
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: colors.primaryLower,
-                  fontWeight: "600",
-                }}
-              >
-                TDS:
-              </Text>
-              <Text
-                style={{ fontSize: 20, color: colors.red, fontWeight: "600" }}
-              >
-                {data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  color: colors.primary,
-                  fontWeight: "700",
-                  fontStyle: "italic",
-                }}
-              >
-                (Normal: 6.5-8.5)
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              width: "100%",
-              borderBottomWidth: 1,
-              borderBottomColor: colors.primaryLower,
-              paddingVertical: 20,
-              // gap: 15,
-            }}
-          >
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: colors.primaryLower,
-                  fontWeight: "600",
-                }}
-              >
-                Temp:
-              </Text>
-              <Text
-                style={{ fontSize: 18, color: colors.red, fontWeight: "600" }}
-              >
-                {data.temperature !== null ? data.temperature : "Loading..."}
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
-                  color: colors.primary,
-                  fontWeight: "700",
-                  fontStyle: "italic",
-                }}
-              >
-                (Normal: 6.5-8.5)
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor: colors.primaryLower,
-              paddingVertical: 20,
-              // gap: 15,
+              padding: 20,
             }}
           >
             <View
               style={{
                 flexDirection: "row",
-                justifyContent: "space-between",
-                width: "100%",
               }}
             >
               <Text
                 style={{
                   fontSize: 20,
-                  color: colors.primaryLower,
-                  fontWeight: "600",
-                }}
-              >
-                pH:
-              </Text>
-              <Text
-                style={{ fontSize: 18, color: colors.red, fontWeight: "600" }}
-              >
-                {data.pH !== null ? data.pH : "Loading..."}
-              </Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <Text
-                style={{
                   color: colors.primary,
-                  fontWeight: "700",
-                  fontStyle: "italic",
+                  fontWeight: 600,
                 }}
               >
-                (Normal: 6.5-8.5)
+                {getRemarks()}
               </Text>
+              <Image
+                style={{ width: 100, height: 100 }}
+                source={require("../assets/img/logo-nobg.png")}
+              />
             </View>
           </View>
           <View
             style={{
-              borderBottomWidth: 1,
-              borderBottomColor: colors.primaryLower,
-              paddingVertical: 20,
-              // gap: 15,
+              backgroundColor: colors.primaryLower,
+              borderRadius: 50,
+              paddingHorizontal: 30,
+              paddingVertical: 25,
+              width: 370,
+              height: 500,
+              gap: 20,
             }}
           >
             <Text
               style={{
-                fontSize: 20,
-                color: colors.primaryLower,
-                fontWeight: "600",
+                fontWeight: "bold",
+                fontSize: 18,
+                color: colors.white,
+                fontStyle: "italic",
               }}
             >
-              Remarks:
+              {data.location !== null ? data.location : "Loading..."}
             </Text>
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                paddingVertical: 20,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: colors.primary,
-                  fontWeight: "600",
-                  maxWidth: 300,
-                }}
-              >
-                 {getRemarks()}
-              </Text>
+            <View>
+              <ParamAlert
+                unit={"-"}
+                param={"pH Balance"}
+                value={data.pH !== null ? data.pH : "Loading..."}
+                img={require("../assets/parameters/ph.png")}
+              />
+              <ParamAlert
+                unit={"mg/L"}
+                param={"TSS"}
+                value={data.tss !== null ? data.tss : "Loading..."}
+                img={require("../assets/parameters/tss.png")}
+              />
+              <ParamAlert
+                unit={"PPM"}
+                param={"TDS"}
+                value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
+                img={require("../assets/parameters/turbidity.png")}
+              />
+              <ParamAlert
+                unit={"°C"}
+                param={"Temperature"}
+                value={
+                  data.temperature !== null ? data.temperature : "Loading..."
+                }
+                img={require("../assets/parameters/temp.png")}
+              />
             </View>
           </View>
         </View>
