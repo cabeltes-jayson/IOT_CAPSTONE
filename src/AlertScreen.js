@@ -28,6 +28,42 @@ const AlertScreen = () => {
     location: null,
   });
 
+  const remarkMessage = (value, normalRange, concernRange) => {
+    if (value === null || value === undefined) return "Loading...";
+    if (value >= normalRange[0] && value <= normalRange[1]) {
+      return "in Good Levels.";
+    } else if (value < concernRange[0] || value > concernRange[1]) {
+      return "shows Abnormal Measurements!";
+    } else {
+      return "in acceptable range."; // ex: temp: normal kay 26-30 so ang acceptable range kay 30-40
+    }
+  };
+
+  // AQUATIC THRESHOLD BASED ON CLENRO DAO EXCEPT TDS
+  const getRemarks = () => {
+    const tssStatus = remarkMessage(data.tss, [0, 50], [0, 60]); // Normal: 0-50, Concern: >60
+    const pHStatus = remarkMessage(data.pH, [6.5, 8.5], [6.0, 9.0]); // Normal: 6.5-8.5, Concern: <6.0 or >9.0
+    const tempStatus = remarkMessage(data.temperature, [26, 30], [26, 40]); // Normal: 26-30, Concern: >40
+    const tdsStatus = remarkMessage(data.tds_ppm, [0, 1000], [0, 2000]); // TDS thresholds remain unchanged
+  
+    return `TSS ${tssStatus}\nTemperature ${tempStatus}\nTDS ${tdsStatus}\nPH ${pHStatus}`;
+  };  
+
+  // Explanation:
+  // Temperature: gi set nako na abnormal ang >40 kay lets say normal ang 26-30 tas nilahos sa 
+  // 30 basin mu balik ra dayn siya sa normal ranges so ayun more than 40 is abnormal na dayn.
+  // same sa other parameters nag set kug gamay lang na kibali extension para sa concern.
+
+  // THRESHOLDS BASED ON CLENRO
+  // Class A Parameters:
+  // pH: 6.5-8.5
+  // Temperature: 26-30
+  // Total Suspended Solids: 50
+  
+  // TDS based on average river 
+  // - Normal: <1000 mg/L (optimal)
+  // - Concern: >2000 mg/L (stress on aquatic life)
+
   const fetchData = async () => {
     try {
       const { data: sensor_data, error } = await supabase
@@ -330,7 +366,7 @@ const AlertScreen = () => {
                   maxWidth: 300,
                 }}
               >
-                CHUCHUCHUUCHUHCUHC QUALITY IS BAD
+                 {getRemarks()}
               </Text>
             </View>
           </View>

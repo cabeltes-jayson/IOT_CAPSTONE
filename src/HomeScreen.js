@@ -87,12 +87,12 @@ const HomeScreen = () => {
         const { temperature, tss, tds_ppm, pH } = sensorData[0];
         setData(sensorData[0]);
 
-        // Check thresholds
+        // // AQUATIC THRESHOLD BASED ON CLENRO DAO EXCEPT TDS
         const messages = [];
-        if (tss > 30) messages.push("TSS ALERT!");
-        if (tds_ppm > 30) messages.push("TDS ALERT!");
-        if (temperature > 30) messages.push("Temperature ALERT!");
-        if (pH < 6.5 || pH > 8.5) messages.push("pH ALERT!");
+        if (tss > 60) messages.push("TSS ALERT!");
+        if (tds_ppm > 2000) messages.push("TDS ALERT!");
+        if (temperature > 40) messages.push("Temperature ALERT!");
+        if (pH < 6.0 || pH > 9.0) messages.push("pH ALERT!");
 
         if (messages.length > 0) {
           setAlertMessage(messages.join("\n"));
