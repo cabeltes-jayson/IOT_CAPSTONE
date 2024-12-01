@@ -358,10 +358,10 @@ const AlertScreen = () => {
                 <View style={styles.paramDiv}>
                   <View style={styles.parameter}>
                     <Text style={{ fontSize: 20, color: colors.primary }}>
-                      Turbidity
+                      TDS
                     </Text>
                     <Text style={{ fontSize: 20, color: colors.primary }}>
-                      ≤ 100
+                      200
                     </Text>
                   </View>
                   <View style={styles.unit}>
@@ -372,7 +372,7 @@ const AlertScreen = () => {
                         fontWeight: "bold",
                       }}
                     >
-                      NTU
+                      PPM
                     </Text>
                   </View>
                 </View>
@@ -421,7 +421,7 @@ const AlertScreen = () => {
                 <View style={styles.paramDiv}>
                   <View style={styles.parameter}>
                     <Text style={{ fontSize: 20, color: colors.primary }}>
-                      TDS
+                      TSS
                     </Text>
                     <Text style={{ fontSize: 20, color: colors.primary }}>
                       50
