@@ -99,16 +99,15 @@ const AboutUs = () => {
               marginVertical: 20,
               fontSize: 18,
               color: colors.white,
-              textAlign: "center",
+              textAlign: "justify",
             }}
           >
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum."
+            "Dedicated to empowering communities with advanced low-cost tools, 
+            we aim to protect and preserve water resources. 
+            Our mobile app offers real-time river monitoring solutions, 
+            enabling users to track water quality, detect changes, 
+            and respond to environmental challenges. By combining innovation with sustainability, 
+            we strive to ensure the health of rivers for future generations."
           </Text>
           <View
             style={{
