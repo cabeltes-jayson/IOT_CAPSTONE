@@ -1,6 +1,7 @@
 export default {
   primary: "#7A6FCB",
   secondary: "#94DCF5",
+  secondaryFont: "#386E81",
   dark: "#201520",
   // "dark-light": "#291d1d",
   // light: "#E4DAD0",
