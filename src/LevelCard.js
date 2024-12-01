@@ -113,9 +113,9 @@ const LevelCard = ({ label, value, unit, date, time, min, max }) => {
           {unit}
         </Text>
       </View>
-      <Text style={{ color: levelColor, fontSize: 15 }}>
+      {/* <Text style={{ color: levelColor, fontSize: 15 }}>
         {`The ${label} level is currently ${condition}`}
-      </Text>
+      </Text> */}
     </View>
   );
 };

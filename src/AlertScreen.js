@@ -106,6 +106,39 @@ const AlertScreen = () => {
           </View>
           <View
             style={{
+              borderTopWidth: 1,
+              borderTopColor: colors.primaryLower,
+              borderBottomWidth: 1,
+              borderBottomColor: colors.primaryLower,
+              paddingVertical: 20,
+              // gap: 15,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: colors.primaryLower,
+                fontWeight: "600",
+              }}
+            >
+              Location:
+            </Text>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: colors.primary,
+                  fontWeight: "600",
+                  maxWidth: 300,
+                }}
+              >
+                {/* #7000 Lapasan, CDOC */}
+                {data.location !== null ? data.location : "Loading..."}
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
               width: "100%",
               borderBottomWidth: 1,
               borderBottomColor: colors.primaryLower,
@@ -128,9 +161,7 @@ const AlertScreen = () => {
               <Text
                 style={{ fontSize: 20, color: colors.red, fontWeight: "600" }}
               >
-                {data.tss !== null
-                  ? data.tss
-                  : "Loading..."}
+                {data.tss !== null ? data.tss : "Loading..."}
               </Text>
             </View>
             <View style={{ alignItems: "center" }}>
@@ -282,18 +313,24 @@ const AlertScreen = () => {
                 fontWeight: "600",
               }}
             >
-              Location:
+              Remarks:
             </Text>
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                paddingVertical: 20,
+              }}
+            >
               <Text
                 style={{
                   fontSize: 18,
                   color: colors.primary,
                   fontWeight: "600",
+                  maxWidth: 300,
                 }}
               >
-                {/* #7000 Lapasan, CDOC */}
-                  {data.location !== null ? data.location : "Loading..."}
+                CHUCHUCHUUCHUHCUHC QUALITY IS BAD
               </Text>
             </View>
           </View>

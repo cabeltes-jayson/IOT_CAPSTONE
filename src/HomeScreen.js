@@ -12,10 +12,15 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
 import colors from "../assets/const/colors";
-import { DrawerActions, useNavigation, useIsFocused } from "@react-navigation/native";
+import {
+  DrawerActions,
+  useNavigation,
+  useIsFocused,
+} from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import LevelCard from "./LevelCard";
 import { supabase } from "./supabaseClient"; // Import Supabase client
+import UnitCard from "./UnitCard";
 
 const HomeScreen = () => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -51,55 +56,55 @@ const HomeScreen = () => {
     setActiveTab(tab);
   };
 
-    // ALERT
-    const [alertVisible, setAlertVisible] = useState(false);
-    const [alertMessage, setAlertMessage] = useState("");
-    const isFocused = useIsFocused();
+  // ALERT
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const isFocused = useIsFocused();
 
-    const [data, setData] = useState({
-      temperature: null,
-      tss: null,
-      tds_ppm: null,
-      pH: null,
-      location: null,
-    });
-    
-    // Fetch sensor data from Supabase
-    const fetchDataAndAlert = async () => {
-      try {
-        const { data: sensorData, error } = await supabase
-          .from("sensor_data")
-          .select("temperature, tss, tds_ppm, pH, location")
-          .order("timestamp", { ascending: false })
-          .limit(1);
+  const [data, setData] = useState({
+    temperature: null,
+    tss: null,
+    tds_ppm: null,
+    pH: null,
+    location: null,
+  });
 
-        if (error) {
-          console.error("Error fetching sensor data:", error.message);
-          return;
-        }
+  // Fetch sensor data from Supabase
+  const fetchDataAndAlert = async () => {
+    try {
+      const { data: sensorData, error } = await supabase
+        .from("sensor_data")
+        .select("temperature, tss, tds_ppm, pH, location")
+        .order("timestamp", { ascending: false })
+        .limit(1);
 
-        if (sensorData && sensorData[0]) {
-          const { temperature, tss, tds_ppm, pH } = sensorData[0];
-          setData(sensorData[0]);
-
-          // Check thresholds
-          const messages = [];
-          if (tss > 30) messages.push("TSS ALERT!");
-          if (tds_ppm > 30) messages.push("TDS ALERT!");
-          if (temperature > 30) messages.push("Temperature ALERT!");
-          if (pH < 6.5 || pH > 8.5) messages.push("pH ALERT!");
-
-          if (messages.length > 0) {
-            setAlertMessage(messages.join("\n"));
-            setAlertVisible(true);
-          } else {
-            setAlertVisible(false);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (error) {
+        console.error("Error fetching sensor data:", error.message);
+        return;
       }
-    };
+
+      if (sensorData && sensorData[0]) {
+        const { temperature, tss, tds_ppm, pH } = sensorData[0];
+        setData(sensorData[0]);
+
+        // Check thresholds
+        const messages = [];
+        if (tss > 30) messages.push("TSS ALERT!");
+        if (tds_ppm > 30) messages.push("TDS ALERT!");
+        if (temperature > 30) messages.push("Temperature ALERT!");
+        if (pH < 6.5 || pH > 8.5) messages.push("pH ALERT!");
+
+        if (messages.length > 0) {
+          setAlertMessage(messages.join("\n"));
+          setAlertVisible(true);
+        } else {
+          setAlertVisible(false);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   useEffect(() => {
     if (!isFocused) {
@@ -111,19 +116,19 @@ const HomeScreen = () => {
     const interval = setInterval(fetchDataAndAlert, 2000);
 
     return () => {
-      clearInterval(interval);  // Cleanup when the screen is unfocused
+      clearInterval(interval); // Cleanup when the screen is unfocused
     };
   }, [isFocused]); // Run this effect whenever the focus changes
 
   useEffect(() => {
     // Reset alert when navigating to the "Alert" screen
     const unsubscribe = navigation.addListener("focus", () => {
-      setAlertVisible(false);  // Reset alert visibility
+      setAlertVisible(false); // Reset alert visibility
     });
 
     return unsubscribe; // Cleanup listener on unmount
   }, [navigation]);
-  
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "tss":
@@ -143,7 +148,9 @@ const HomeScreen = () => {
           <Text>
             <LevelCard
               label="Temp"
-              value={data.temperature !== null ? data.temperature : "Loading..."} // Example value
+              value={
+                data.temperature !== null ? data.temperature : "Loading..."
+              } // Example value
               unit="°C"
               date={formattedDate}
               time={formattedTime}
@@ -195,25 +202,24 @@ const HomeScreen = () => {
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-
-        {/* ALERT MODAL */}
+          {/* ALERT MODAL */}
           {alertVisible && (
-          <Modal animationType="fade" transparent visible={alertVisible}>
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <Text style={styles.modalText}>{alertMessage}</Text>
-                <TouchableOpacity
-                  style={styles.modalButton}
-                  onPress={() => {
-                    setAlertVisible(false);  // Close the modal when pressing the button
-                    navigation.navigate("Alert");  // Navigate to Alert screen
-                  }}
-                >
-                  <Text style={styles.modalButtonText}>Go to Alerts</Text>
-                </TouchableOpacity>
+            <Modal animationType="fade" transparent visible={alertVisible}>
+              <View style={styles.modalContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalText}>{alertMessage}</Text>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={() => {
+                      setAlertVisible(false); // Close the modal when pressing the button
+                      navigation.navigate("Alert"); // Navigate to Alert screen
+                    }}
+                  >
+                    <Text style={styles.modalButtonText}>Go to Alerts</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          </Modal>
+            </Modal>
           )}
           <View
             style={{
@@ -293,33 +299,12 @@ const HomeScreen = () => {
                   }}
                   onPress={() => handleTabChange("default")}
                 >
-                  <View
-                    style={{
-                      flex: 1,
-                      borderTopRightRadius: 25,
-                      borderBottomLeftRadius: 25,
-                      padding: 18,
-                      justifyContent: "space-between",
-                    }}
-                    colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.3)"]}
-                  >
-                    <Image
-                      source={require("../assets/parameters/turbidity.png")}
-                    />
-                    <Text
-                      style={{
-                        color: colors.primary,
-                        fontSize: 15,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      TSS
-                    </Text>
-                    <Text style={{ fontWeight: "800", fontSize: 18 }}>
-                      {/* 15 NTU */}
-                      {data.tss !== null ? data.tss : "Loading..."}
-                    </Text>
-                  </View>
+                  <UnitCard
+                    clip={require("../assets/parameters/turbidity.png")}
+                    param="Total Suspended Solids"
+                    value={data.tss !== null ? data.tss : "Loading..."}
+                    unit="PPM"
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
@@ -333,31 +318,12 @@ const HomeScreen = () => {
                   }}
                   onPress={() => handleTabChange("tss")}
                 >
-                  <View
-                    style={{
-                      flex: 1,
-                      borderTopRightRadius: 25,
-                      borderBottomLeftRadius: 25,
-                      padding: 18,
-                      justifyContent: "space-between",
-                    }}
-                    colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.3)"]}
-                  >
-                    <Image source={require("../assets/parameters/tss.png")} />
-                    <Text
-                      style={{
-                        fontSize: 11,
-                        fontWeight: "bold",
-                        color: colors.primary,
-                      }}
-                    >
-                      TOTAL DISSOLVED SOLIDS
-                    </Text>
-                    <Text style={{ fontSize: 18, fontWeight: "800" }}>
-                      {/* 200 mg/L */}
-                      {data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
-                    </Text>
-                  </View>
+                  <UnitCard
+                    clip={require("../assets/parameters/tss.png")}
+                    param="Total Suspended Solids"
+                    value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
+                    unit="mg/L"
+                  />
                 </TouchableOpacity>
               </View>
               <View
@@ -378,30 +344,16 @@ const HomeScreen = () => {
                   }}
                   onPress={() => handleTabChange("temperature")}
                 >
-                  <View
-                    style={{
-                      flex: 1,
-
-                      padding: 20,
-                      justifyContent: "space-between",
-                      // backgroundColor: colors.primaryLower,
-                    }}
-                  >
-                    <Image source={require("../assets/parameters/temp.png")} />
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        fontWeight: "bold",
-                        color: colors.primary,
-                      }}
-                    >
-                      TEMPERATURE
-                    </Text>
-                    <Text style={{ fontSize: 18, fontWeight: "800" }}>
-                      {/* 33°C */}
-                      {data.temperature !== null ? data.temperature : "Loading..."}°C
-                    </Text>
-                  </View>
+                  <UnitCard
+                    clip={require("../assets/parameters/temp.png")}
+                    param="Temperature"
+                    value={
+                      data.temperature !== null
+                        ? data.temperature
+                        : "Loading..."
+                    }
+                    unit="°C"
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
@@ -415,29 +367,12 @@ const HomeScreen = () => {
                   }}
                   onPress={() => handleTabChange("ph")}
                 >
-                  <View
-                    style={{
-                      flex: 1,
-                      padding: 20,
-                      justifyContent: "space-between",
-                      // backgroundColor: colors.primaryLower,
-                    }}
-                  >
-                    <Image source={require("../assets/parameters/ph.png")} />
-                    <Text
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: 15,
-                        color: colors.primary,
-                      }}
-                    >
-                      pH
-                    </Text>
-                    <Text style={{ fontWeight: "800", fontSize: 18 }}>
-                      {/* 5 */}
-                      {data.pH !== null ? data.pH : "Loading..."}
-                    </Text>
-                  </View>
+                  <UnitCard
+                    clip={require("../assets/parameters/ph.png")}
+                    param="pH"
+                    value={data.pH !== null ? data.pH : "Loading..."}
+                    unit=""
+                  />
                 </TouchableOpacity>
               </View>
             </View>

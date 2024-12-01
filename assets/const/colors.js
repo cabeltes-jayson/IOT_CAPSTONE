@@ -12,7 +12,7 @@ export default {
   red: "#a62723",
   // accent: '#9b59b6',
   green: "#50C878",
-  low: "#FF9900",
-  normal: "#2B720F",
-  high: "#DC3912",
+  low: "#FFB649",
+  normal: "#67AF62",
+  high: "#79D072",
 };
