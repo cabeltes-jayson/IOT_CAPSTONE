@@ -64,14 +64,20 @@ const AlertScreen = () => {
     }
   };
 
+  // New TDS-specific remark handler
+  const tdsRemarkMessage = (value) => {
+    if (value === null || value === undefined) return "Loading...";
+    return value <= 500 ? "in acceptable range." : "shows Abnormal Measurements!";
+  };
+
   // AQUATIC THRESHOLD BASED ON CLENRO DAO EXCEPT TDS
   const getRemarks = () => {
     const tssStatus = remarkMessage(data.tss, [0, 50], [0, 60]); // Normal: 0-50, Concern: >60
     const pHStatus = remarkMessage(data.pH, [6.5, 8.5], [6.0, 9.0]); // Normal: 6.5-8.5, Concern: <6.0 or >9.0
     const tempStatus = remarkMessage(data.temperature, [26, 30], [26, 40]); // Normal: 26-30, Concern: >40
-    const tdsStatus = remarkMessage(data.tds_ppm, [0, 1000], [0, 2000]); // TDS thresholds remain unchanged
+    const tdsStatus = tdsRemarkMessage(data.tds_ppm); // TDS-specific logic
 
-    return `TSS ${tssStatus}\nTemperature ${tempStatus}\nTDS ${tdsStatus}\nPH ${pHStatus}`;
+    return `\nPH ${pHStatus}\nTDS ${tdsStatus}\nTSS ${tssStatus}\nTemperature ${tempStatus}`;
   };
 
   // Explanation:
