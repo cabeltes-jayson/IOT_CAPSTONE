@@ -335,12 +335,13 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: colors.primary,
-    fontSize: 20,
+    fontSize: width * 0.06,
   },
   contentContainer: {
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 20,
+     justifyContent: 'flex-start'
   },
   dateContainer: {
     alignItems: "center",
@@ -362,10 +363,10 @@ remarksContainer: {
   alignItems: 'center', // Aligns items vertically in the center
   backgroundColor: colors.white,
   width: '100%',
-  height: height * 0.25,
+  height: height * 0.30,
   borderWidth: 2,
   borderColor: colors.primary,
-  borderRadius: 30,
+  borderRadius: 40,
   padding: 20,
   marginBottom: 20,
 },
@@ -389,8 +390,13 @@ remarksContainer: {
     marginBottom: 20,
   },
   scrollContent: {
-    gap: 20,
+    paddingBottom: 20, // Add padding at the bottom to prevent elements from being cut off
+    paddingHorizontal: 10, // Add horizontal padding to give space around elements
+    flexGrow: 1, // Allow the content to stretch and fill the available space
+    justifyContent: 'flex-start', // Align content at the top
   },
+  
+  
   locationText: {
     fontWeight: "bold",
     fontSize: 18,
@@ -413,7 +419,7 @@ remarksContainer: {
     justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
+    //  width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
@@ -427,13 +433,14 @@ remarksContainer: {
     fontSize: 23,
     textAlign: "center",
     fontWeight: "700",
-        width: "105%",
+    width: "105%",
 
   },
   paramDiv: {
     flexDirection: "row",
     justifyContent: "space-between",
     gap: 5,
+    
   },
   parameter: {
     flexDirection: "row",
