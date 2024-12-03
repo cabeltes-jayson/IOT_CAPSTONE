@@ -7,6 +7,7 @@ import {
   Modal,
   ImageBackground,
   Image,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -196,56 +197,52 @@ const AlertScreen = () => {
               />
             </View>
           </View>
-          <View
+          <ScrollView
+          style={{
+            backgroundColor: colors.primaryLower,
+            borderRadius: 50,
+            paddingHorizontal: 30,
+            paddingVertical: 25,
+            width: 370,
+          }}
+          contentContainerStyle={{ gap: 20 }}
+        >
+          <Text
             style={{
-              backgroundColor: colors.primaryLower,
-              borderRadius: 50,
-              paddingHorizontal: 30,
-              paddingVertical: 25,
-              width: 370,
-              height: 500,
-              gap: 20,
+              fontWeight: "bold",
+              fontSize: 18,
+              color: colors.white,
+              fontStyle: "italic",
             }}
           >
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 18,
-                color: colors.white,
-                fontStyle: "italic",
-              }}
-            >
-              {data.location !== null ? data.location : "Loading..."}
-            </Text>
-            <View>
-              <ParamAlert
-                unit={"-"}
-                param={"pH Balance"}
-                value={data.pH !== null ? data.pH : "Loading..."}
-                img={require("../assets/parameters/ph.png")}
-              />
-              <ParamAlert
-                unit={"mg/L"}
-                param={"TSS"}
-                value={data.tss !== null ? data.tss : "Loading..."}
-                img={require("../assets/parameters/tss.png")}
-              />
-              <ParamAlert
-                unit={"PPM"}
-                param={"TDS"}
-                value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
-                img={require("../assets/parameters/turbidity.png")}
-              />
-              <ParamAlert
-                unit={"°C"}
-                param={"Temperature"}
-                value={
-                  data.temperature !== null ? data.temperature : "Loading..."
-                }
-                img={require("../assets/parameters/temp.png")}
-              />
-            </View>
-          </View>
+            {data.location !== null ? data.location : "Loading..."}
+          </Text>
+          <ParamAlert
+            unit={"-"}
+            param={"pH Balance"}
+            value={data.pH !== null ? data.pH : "Loading..."}
+            img={require("../assets/parameters/ph.png")}
+          />
+          <ParamAlert
+            unit={"mg/L"}
+            param={"TSS"}
+            value={data.tss !== null ? data.tss : "Loading..."}
+            img={require("../assets/parameters/tss.png")}
+          />
+          <ParamAlert
+            unit={"PPM"}
+            param={"TDS"}
+            value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
+            img={require("../assets/parameters/turbidity.png")}
+          />
+          <ParamAlert
+            unit={"°C"}
+            param={"Temperature"}
+            value={data.temperature !== null ? data.temperature : "Loading..."}
+            img={require("../assets/parameters/temp.png")}
+          />
+        </ScrollView>
+
         </View>
 
         {/* MODAL VIEW */}
