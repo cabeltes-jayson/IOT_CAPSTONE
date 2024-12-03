@@ -113,7 +113,7 @@ export default function HistoryScreen() {
           </View>
         </View>
 
-        <ScrollView style={{ flex: 1, paddingHorizontal: 30 }}>
+        <ScrollView style={{ flex: 1, paddingHorizontal: 30,marginBottom: '5%', }}>
           {data.map((record, index) => (
             <View key={index}>
               <View
