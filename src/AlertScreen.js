@@ -444,7 +444,7 @@ remarksContainer: {
     borderRadius: 14,
     borderBottomWidth: 2,
     borderColor: colors.primary,
-    width: '86%',
+    width: '89%',
   },
   unit: {
     backgroundColor: colors.primary,
