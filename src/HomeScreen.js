@@ -32,8 +32,8 @@ const HomeScreen = () => {
   }, []);
 
   const formattedDate = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Manila", // Set to the desired timezone
-    month: "short", // Short month format (e.g., NOV)
+    timeZone: "Asia/Manila",
+    month: "short",
     day: "numeric",
     year: "numeric",
   })
@@ -42,7 +42,7 @@ const HomeScreen = () => {
 
   const formattedTime = new Intl.DateTimeFormat("en-US", {
     timeZone: "Asia/Manila",
-    timeStyle: "short", // Format for time
+    timeStyle: "short",
   }).format(currentDateTime);
 
   const navigation = useNavigation();
@@ -56,7 +56,6 @@ const HomeScreen = () => {
     setActiveTab(tab);
   };
 
-  // ALERT
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const isFocused = useIsFocused();
@@ -69,7 +68,6 @@ const HomeScreen = () => {
     location: null,
   });
 
-  // Fetch sensor data from Supabase
   const fetchDataAndAlert = async () => {
     try {
       const { data: sensorData, error } = await supabase
@@ -87,7 +85,6 @@ const HomeScreen = () => {
         const { temperature, tss, tds_ppm, pH } = sensorData[0];
         setData(sensorData[0]);
 
-        // // AQUATIC THRESHOLD BASED ON CLENRO DAO EXCEPT TDS
         const messages = [];
         if (tss > 60) messages.push("TSS ALERT!");
         if (tds_ppm > 2000) messages.push("TDS ALERT!");
@@ -108,25 +105,22 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (!isFocused) {
-      // If we're not on the HomeScreen, stop fetching data
       return;
     }
 
-    // Fetch data every 2 seconds when the HomeScreen is focused
     const interval = setInterval(fetchDataAndAlert, 2000);
 
     return () => {
-      clearInterval(interval); // Cleanup when the screen is unfocused
+      clearInterval(interval);
     };
-  }, [isFocused]); // Run this effect whenever the focus changes
+  }, [isFocused]);
 
   useEffect(() => {
-    // Reset alert when navigating to the "Alert" screen
     const unsubscribe = navigation.addListener("focus", () => {
-      setAlertVisible(false); // Reset alert visibility
+      setAlertVisible(false);
     });
 
-    return unsubscribe; // Cleanup listener on unmount
+    return unsubscribe;
   }, [navigation]);
 
   const renderTabContent = () => {
@@ -139,53 +133,45 @@ const HomeScreen = () => {
             unit="mg/L"
             formattedDate={formattedDate}
             formattedTime={formattedTime}
-            min={26} // Minimum acceptable turbidity
-            max={30} // Maximum acceptable turbidity
+            min={26}
+            max={30}
           />
         );
       case "temperature":
         return (
-          <Text>
-            <LevelCard
-              label="Temp"
-              value={
-                data.temperature !== null ? data.temperature : "Loading..."
-              } // Example value
-              unit="°C"
-              date={formattedDate}
-              time={formattedTime}
-              min={26} // Minimum acceptable turbidity
-              max={30} // Maximum acceptable turbidity
-            />
-          </Text>
+          <LevelCard
+            label="Temp"
+            value={data.temperature !== null ? data.temperature : "Loading..."}
+            unit="°C"
+            date={formattedDate}
+            time={formattedTime}
+            min={26}
+            max={30}
+          />
         );
       case "ph":
         return (
-          <Text>
-            <LevelCard
-              label="pH"
-              value={data.pH !== null ? data.pH : "Loading..."} // Example value
-              unit=""
-              date={formattedDate}
-              time={formattedTime}
-              min={6.5}
-              max={8.5}
-            />
-          </Text>
+          <LevelCard
+            label="pH"
+            value={data.pH !== null ? data.pH : "Loading..."}
+            unit=""
+            date={formattedDate}
+            time={formattedTime}
+            min={6.5}
+            max={8.5}
+          />
         );
       default:
         return (
-          <Text>
-            <LevelCard
-              label="Turbidity"
-              value={data.tss !== null ? data.tss : "Loading..."}
-              unit="NTU"
-              date={formattedDate}
-              time={formattedTime}
-              min={0}
-              max={100}
-            />
-          </Text>
+          <LevelCard
+            label="Turbidity"
+            value={data.tss !== null ? data.tss : "Loading..."}
+            unit="NTU"
+            date={formattedDate}
+            time={formattedTime}
+            min={0}
+            max={100}
+          />
         );
     }
   };
@@ -199,10 +185,7 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={openDrawer}>
           <Icon name="menu" color={colors.primary} size={25} />
         </TouchableOpacity>
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          {/* ALERT MODAL */}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
           {alertVisible && (
             <Modal animationType="fade" transparent visible={alertVisible}>
               <View style={styles.modalContainer}>
@@ -211,8 +194,8 @@ const HomeScreen = () => {
                   <TouchableOpacity
                     style={styles.modalButton}
                     onPress={() => {
-                      setAlertVisible(false); // Close the modal when pressing the button
-                      navigation.navigate("Alert"); // Navigate to Alert screen
+                      setAlertVisible(false);
+                      navigation.navigate("Alert");
                     }}
                   >
                     <Text style={styles.modalButtonText}>Go to Alerts</Text>
@@ -221,82 +204,28 @@ const HomeScreen = () => {
               </View>
             </Modal>
           )}
-          <View
-            style={{
-              flex: 1,
-              marginVertical: 10,
-              width: 300,
-            }}
-          >
+          <View style={styles.cardContainer}>
             {renderTabContent()}
           </View>
           <LinearGradient
             colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.1)"]}
-            style={{
-              alignSelf: "stretch",
-              flex: 1,
-              backgroundColor: colors.primaryLower,
-              marginVertical: 10,
-              marginHorizontal: 10,
-              padding: 15,
-              borderRadius: 25,
-            }}
+            style={styles.gradientContainer}
           >
-            <View
-              style={{
-                // flex: 1,
-                backgroundColor: "white",
-                marginVertical: 10,
-                marginHorizontal: 5,
-                borderTopRightRadius: 50,
-                borderBottomLeftRadius: 50,
-                elevation: 10,
-                height: 110,
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  padding: 20,
-                }}
-              >
+            <View style={styles.locationCard}>
+              <View style={styles.locationContent}>
                 <Image
-                  style={{ width: 61, height: 70 }}
+                  style={styles.locationImage}
                   source={require("../assets/parameters/map.png")}
                 />
-                <Text
-                  style={{
-                    maxWidth: 150,
-                    color: colors.primary,
-                    fontWeight: "600",
-                    fontSize: 18,
-                  }}
-                >
-                  {/* Unnamed Road, West Gate, Cagayan de Oro City */}
+                <Text style={styles.locationText}>
                   {data.location !== null ? data.location : "Loading..."}
                 </Text>
               </View>
             </View>
-            <View style={{ flex: 2 }}>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                }}
-              >
+            <View style={styles.unitCardsContainer}>
+              <View style={styles.unitCardRow}>
                 <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    backgroundColor: colors.white,
-                    marginVertical: 15,
-                    marginHorizontal: 5,
-                    borderTopRightRadius: 25,
-                    borderBottomLeftRadius: 25,
-                    elevation: 10,
-                  }}
+                  style={styles.unitCard}
                   onPress={() => handleTabChange("default")}
                 >
                   <UnitCard
@@ -307,15 +236,7 @@ const HomeScreen = () => {
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    backgroundColor: colors.white,
-                    marginVertical: 15,
-                    marginHorizontal: 5,
-                    borderTopRightRadius: 25,
-                    borderBottomLeftRadius: 25,
-                    elevation: 10,
-                  }}
+                  style={styles.unitCard}
                   onPress={() => handleTabChange("tss")}
                 >
                   <UnitCard
@@ -326,45 +247,20 @@ const HomeScreen = () => {
                   />
                 </TouchableOpacity>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                }}
-              >
+              <View style={styles.unitCardRow}>
                 <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    backgroundColor: colors.white,
-                    marginVertical: 10,
-                    marginHorizontal: 5,
-                    borderTopRightRadius: 25,
-                    borderBottomLeftRadius: 25,
-                    elevation: 5,
-                  }}
+                  style={styles.unitCard}
                   onPress={() => handleTabChange("temperature")}
                 >
                   <UnitCard
                     clip={require("../assets/parameters/temp.png")}
                     param="Temperature"
-                    value={
-                      data.temperature !== null
-                        ? data.temperature
-                        : "Loading..."
-                    }
+                    value={data.temperature !== null ? data.temperature : "Loading..."}
                     unit="°C"
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    backgroundColor: colors.white,
-                    marginVertical: 10,
-                    marginHorizontal: 5,
-                    borderTopRightRadius: 25,
-                    borderBottomLeftRadius: 25,
-                    elevation: 5,
-                  }}
+                  style={styles.unitCard}
                   onPress={() => handleTabChange("ph")}
                 >
                   <UnitCard
@@ -377,7 +273,7 @@ const HomeScreen = () => {
               </View>
             </View>
           </LinearGradient>
-        </View>
+        </ScrollView>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -388,6 +284,8 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center',
   },
   linearBg: {
     flex: 1,
@@ -406,11 +304,74 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "80%",
   },
-  modalText: { fontSize: 16, marginBottom: 20, textAlign: "center" },
+  modalText: { 
+    fontSize: 16, 
+    marginBottom: 20, 
+    textAlign: "center" 
+  },
   modalButton: {
     backgroundColor: colors.primary,
     padding: 10,
     borderRadius: 5,
   },
-  modalButtonText: { color: "white", fontWeight: "bold" },
+  modalButtonText: { 
+    color: "white", 
+    fontWeight: "bold" 
+  },
+  cardContainer: {
+    flex: 1,
+    marginVertical: 10,
+    width: 300,
+  },
+  gradientContainer: {
+    alignSelf: "stretch",
+    flex: 1,
+    backgroundColor: colors.primaryLower,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    padding: 15,
+    borderRadius: 25,
+  },
+  locationCard: {
+    backgroundColor: "white",
+    marginVertical: 10,
+    marginHorizontal: 5,
+    borderTopRightRadius: 50,
+    borderBottomLeftRadius: 50,
+    elevation: 10,
+    height: 180,
+  },
+  locationContent: {
+    flex: 1,
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 20,
+  },
+  locationImage: {
+    width: 61,
+    height: 70,
+  },
+  locationText: {
+    maxWidth: 150,
+    color: colors.primary,
+    fontWeight: "600",
+    fontSize: 18,
+  },
+  unitCardsContainer: {
+    flex: 2,
+  },
+  unitCardRow: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  unitCard: {
+    flex: 1,
+    backgroundColor: colors.white,
+    marginVertical: 10,
+    marginHorizontal: 5,
+    borderTopRightRadius: 25,
+    borderBottomLeftRadius: 25,
+    elevation: 5,
+  },
 });
