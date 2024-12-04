@@ -284,7 +284,8 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  
+  //justifyContent: 'center', // Center vertically
+  //alignItems: 'center',
   },
   linearBg: {
     flex: 1,
