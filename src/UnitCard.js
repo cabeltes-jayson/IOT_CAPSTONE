@@ -46,7 +46,7 @@ const UnitCard = ({ clip, param, value, unit }) => {
       <Text
         style={{
           color: colors.primary,
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: "bold",
         }}
       >
