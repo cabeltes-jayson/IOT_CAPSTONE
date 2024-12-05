@@ -185,12 +185,30 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={openDrawer}>
           <Icon name="menu" color={colors.primary} size={25} />
         </TouchableOpacity>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           {alertVisible && (
             <Modal animationType="fade" transparent visible={alertVisible}>
               <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
+                  <Image source={require("../assets/warning.png")} />
                   <Text style={styles.modalText}>{alertMessage}</Text>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontStyle: "italic",
+                      textAlign: "center",
+                      maxWidth: 210,
+                      color: "rgba(0, 0, 0, .50)",
+                    }}
+                  >
+                    An abnormal level is detected in some of the parameters.
+                  </Text>
                   <TouchableOpacity
                     style={styles.modalButton}
                     onPress={() => {
@@ -198,15 +216,13 @@ const HomeScreen = () => {
                       navigation.navigate("Alert");
                     }}
                   >
-                    <Text style={styles.modalButtonText}>Go to Alerts</Text>
+                    <Text style={styles.modalButtonText}>View Alert</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </Modal>
           )}
-          <View style={styles.cardContainer}>
-            {renderTabContent()}
-          </View>
+          <View style={styles.cardContainer}>{renderTabContent()}</View>
           <LinearGradient
             colors={["rgba(255,254,254,1)", "rgba(122,11,203,0.1)"]}
             style={styles.gradientContainer}
@@ -255,7 +271,11 @@ const HomeScreen = () => {
                   <UnitCard
                     clip={require("../assets/parameters/temp.png")}
                     param="Temperature"
-                    value={data.temperature !== null ? data.temperature : "Loading..."}
+                    value={
+                      data.temperature !== null
+                        ? data.temperature
+                        : "Loading..."
+                    }
                     unit="°C"
                   />
                 </TouchableOpacity>
@@ -284,8 +304,8 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  //justifyContent: 'center', // Center vertically
-  //alignItems: 'center',
+    //justifyContent: 'center', // Center vertically
+    //alignItems: 'center',
   },
   linearBg: {
     flex: 1,
@@ -303,20 +323,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     width: "80%",
+    gap: 20,
   },
-  modalText: { 
-    fontSize: 16, 
-    marginBottom: 20, 
-    textAlign: "center" 
+  modalText: {
+    fontSize: 20,
+    // marginBottom: 20,
+    textAlign: "center",
+    fontWeight: "900",
+    color: "#E41717",
   },
   modalButton: {
     backgroundColor: colors.primary,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 10,
+    width: 237,
   },
-  modalButtonText: { 
-    color: "white", 
-    fontWeight: "bold" 
+  modalButtonText: {
+    color: colors.white,
+    textAlign: "center",
+    fontSize: 18,
   },
   cardContainer: {
     flex: 1,

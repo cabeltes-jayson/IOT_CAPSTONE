@@ -70,7 +70,9 @@ const AlertScreen = () => {
 
   const tdsRemarkMessage = (value) => {
     if (value === null || value === undefined) return "Loading...";
-    return value <= 500 ? "in acceptable range." : "shows Abnormal Measurements!";
+    return value <= 500
+      ? "in acceptable range."
+      : "shows Abnormal Measurements!";
   };
 
   // AQUATIC THRESHOLD BASED ON CLENRO DAO EXCEPT TDS
@@ -134,8 +136,7 @@ const AlertScreen = () => {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Alert</Text>
           <TouchableOpacity onPress={() => setOpenModal(true)}>
-            <Icon
-            name="information-circle" color={colors.primary} size={25} />
+            <Icon name="information-circle" color={colors.primary} size={25} />
           </TouchableOpacity>
         </View>
 
@@ -146,10 +147,10 @@ const AlertScreen = () => {
           </View>
           <View style={styles.remarksContainer}>
             <Text style={styles.remarksText}>{getRemarks()}</Text>
-            <Image
+            {/* <Image
               style={styles.logo}
               source={require("../assets/img/logo-nobg.png")}
-            />
+            /> */}
           </View>
           <ScrollView
             style={styles.scrollView}
@@ -179,7 +180,9 @@ const AlertScreen = () => {
             <ParamAlert
               unit={"°C"}
               param={"Temperature"}
-              value={data.temperature !== null ? data.temperature : "Loading..."}
+              value={
+                data.temperature !== null ? data.temperature : "Loading..."
+              }
               img={require("../assets/parameters/temp.png")}
             />
           </ScrollView>
@@ -341,7 +344,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 20,
-     justifyContent: 'flex-start'
+    justifyContent: "flex-start",
   },
   dateContainer: {
     alignItems: "center",
@@ -357,19 +360,19 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontWeight: "400",
   },
-remarksContainer: {
-  flexDirection: 'row',
-  justifyContent: 'space-between', // Distributes space between items
-  alignItems: 'center', // Aligns items vertically in the center
-  backgroundColor: colors.white,
-  width: '100%',
-  height: height * 0.30,
-  borderWidth: 2,
-  borderColor: colors.primary,
-  borderRadius: 40,
-  padding: 20,
-  marginBottom: 20,
-},
+  remarksContainer: {
+    flexDirection: "row",
+    justifyContent: "center", // Distributes space between items
+    alignItems: "center", // Aligns items vertically in the center
+    backgroundColor: colors.white,
+    width: "100%",
+    height: height * 0.3,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    borderRadius: 40,
+    padding: 20,
+    marginBottom: 20,
+  },
   remarksText: {
     fontSize: 20,
     color: colors.primary,
@@ -393,10 +396,9 @@ remarksContainer: {
     paddingBottom: 20, // Add padding at the bottom to prevent elements from being cut off
     paddingHorizontal: 10, // Add horizontal padding to give space around elements
     flexGrow: 1, // Allow the content to stretch and fill the available space
-    justifyContent: 'flex-start', // Align content at the top
+    justifyContent: "flex-start", // Align content at the top
   },
-  
-  
+
   locationText: {
     fontWeight: "bold",
     fontSize: 18,
@@ -419,28 +421,24 @@ remarksContainer: {
     justifyContent: "center",
     shadowColor: "#000",
     shadowOffset: {
-    //  width: 0,
+      //  width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
     width: "105%",
-
   },
   modalText: {
     color: colors.white,
     fontSize: 23,
     textAlign: "center",
     fontWeight: "700",
-    width: "105%",
-
+    width: "90%",
   },
   paramDiv: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 5,
-    
   },
   parameter: {
     flexDirection: "row",
@@ -451,7 +449,7 @@ remarksContainer: {
     borderRadius: 14,
     borderBottomWidth: 2,
     borderColor: colors.primary,
-    width: '89%',
+    width: "80%",
   },
   unit: {
     backgroundColor: colors.primary,
@@ -461,6 +459,6 @@ remarksContainer: {
     borderRadius: 1000,
     borderWidth: 1,
     borderColor: colors.white,
-    width: '20%',
+    width: "20%",
   },
 });
