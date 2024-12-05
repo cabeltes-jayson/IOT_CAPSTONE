@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import "react-native-reanimated";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, BackHandler } from "react-native";
 import LandingScreen from "./src/LandingScreen";
 import HomeScreen from "./src/HomeScreen";
 import {
@@ -19,6 +19,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import colors from "./assets/const/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import DetailsScreen from "./src/DetailsScreen";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -75,6 +76,7 @@ function CustomDrawerContent(props) {
         <View style={styles.bottomDrawerSection}>
           <DrawerItem
             // onPress={() => navigation.dispatch(StackActions.popToTop())}
+            onPress={() => BackHandler.exitApp()} // Exit the app
             icon={() => <Icon name="exit" color={colors.white} size={20} />}
             label="Exit"
             labelStyle={{
@@ -125,22 +127,30 @@ function HomeDrawer() {
         }}
       />
       <Drawer.Screen
+        name="History"
+        component={HistoryScreen}
+        options={{
+          title: "History",
+          drawerIcon: () => <Icon name="time" size={20} color={colors.white} />,
+        }}
+      />
+      <Drawer.Screen
+        name="Details"
+        component={DetailsScreen}
+        options={{
+          title: "Details",
+          drawerIcon: () => (
+            <Icon name="newspaper" size={20} color={colors.white} />
+          ),
+        }}
+      />
+      <Drawer.Screen
         name="About Us"
         component={AboutUs}
         options={{
           title: "About Us",
           drawerIcon: () => (
             <Icon name="people-circle" size={20} color={colors.white} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="History"
-        component={HistoryScreen}
-        options={{
-          title: "History",
-          drawerIcon: () => (
-            <Icon name="time" size={20} color={colors.white} />
           ),
         }}
       />

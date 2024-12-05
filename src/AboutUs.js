@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
-  ScrollView, 
+  ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import colors from "../assets/const/colors";
@@ -46,7 +46,6 @@ const AboutUs = () => {
           </Text>
         </View>
 
-        
         <ScrollView
           contentContainerStyle={styles.missionContainer}
           style={{ flex: 1 }}
@@ -55,16 +54,23 @@ const AboutUs = () => {
           <Text style={styles.separator}>_____________________</Text>
           <Text style={styles.missionText}>
             "Dedicated to empowering communities with advanced low-cost tools,
-            we aim to protect and preserve water resources. Our mobile app offers
-            real-time river monitoring solutions, enabling users to track water
-            quality, detect changes, and respond to environmental challenges. By
-            combining innovation with sustainability, we strive to ensure the
-            health of rivers for future generations."
+            we aim to protect and preserve water resources. Our mobile app
+            offers real-time river monitoring solutions, enabling users to track
+            water quality, detect changes, and respond to environmental
+            challenges. By combining innovation with sustainability, we strive
+            to ensure the health of rivers for future generations."
           </Text>
         </ScrollView>
 
         <TouchableOpacity style={styles.learnMoreButton}>
-          <Text style={styles.learnMoreButtonText}>Learn More</Text>
+          <Text
+            style={styles.learnMoreButtonText}
+            onPress={() => {
+              navigation.navigate("Details");
+            }}
+          >
+            Learn More
+          </Text>
         </TouchableOpacity>
       </ImageBackground>
     </SafeAreaView>
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: colors.primary,
-    fontSize: width * 0.05, 
+    fontSize: width * 0.05,
   },
   contentContainer: {
     justifyContent: "center",
@@ -100,7 +106,7 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     color: colors.primary,
-    fontSize: width * 0.1, 
+    fontSize: width * 0.1,
   },
   separator: {
     color: colors.secondary,
@@ -110,49 +116,49 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     textTransform: "uppercase",
     marginVertical: 20,
-    fontSize: width * 0.05, 
+    fontSize: width * 0.05,
     color: colors.primary,
     textAlign: "center",
   },
   missionContainer: {
-    flexGrow: 1, 
+    flexGrow: 1,
     backgroundColor: "rgba(122, 111, 203, 0.5)",
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
     padding: 25,
-    paddingBottom: 100, 
+    paddingBottom: 100,
     marginLeft: 10,
     marginRight: 10,
   },
   missionTitle: {
     color: colors.white,
-    fontSize: width * 0.08, 
+    fontSize: width * 0.08,
     fontWeight: "900",
   },
   missionText: {
     fontStyle: "italic",
     textTransform: "uppercase",
-    fontSize: width * 0.045, 
+    fontSize: width * 0.045,
     color: colors.white,
-    textAlign: "left", 
-    lineHeight: width * 0.055, 
-    marginVertical: 10, 
+    textAlign: "left",
+    lineHeight: width * 0.055,
+    marginVertical: 10,
   },
-  
+
   learnMoreButton: {
     backgroundColor: colors.white,
     height: 50,
     borderRadius: 25,
-    width: width * 0.65, 
+    width: width * 0.65,
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute", 
-    bottom: 30, 
+    position: "absolute",
+    bottom: 30,
     alignSelf: "center",
   },
   learnMoreButtonText: {
     color: colors.primary,
-    fontSize: width * 0.04, 
+    fontSize: width * 0.04,
   },
 });
 
