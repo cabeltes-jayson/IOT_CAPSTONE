@@ -87,7 +87,7 @@ const HomeScreen = () => {
 
         const messages = [];
         if (tss > 60) messages.push("TSS ALERT!");
-        if (tds_ppm > 2000) messages.push("TDS ALERT!");
+        if (tds_ppm > 500) messages.push("TDS ALERT!");
         if (temperature > 40) messages.push("Temperature ALERT!");
         if (pH < 6.0 || pH > 9.0) messages.push("pH ALERT!");
 
@@ -129,12 +129,12 @@ const HomeScreen = () => {
         return (
           <LevelCard
             label="TSS"
-            value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
+            value={data.tss !== null ? data.tss : "Loading..."}
             unit="mg/L"
             formattedDate={formattedDate}
             formattedTime={formattedTime}
-            min={26}
-            max={30}
+            min={0}
+            max={50}
           />
         );
       case "temperature":
@@ -164,13 +164,13 @@ const HomeScreen = () => {
       default:
         return (
           <LevelCard
-            label="Turbidity"
-            value={data.tss !== null ? data.tss : "Loading..."}
-            unit="NTU"
+            label="TDS"
+            value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
+            unit="PPM"
             date={formattedDate}
             time={formattedTime}
             min={0}
-            max={100}
+            max={500}
           />
         );
     }
@@ -247,7 +247,7 @@ const HomeScreen = () => {
                   <UnitCard
                     clip={require("../assets/parameters/turbidity.png")}
                     param="Total Dissolved Solids"
-                    value={data.tss !== null ? data.tss : "Loading..."}
+                    value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
                     unit="PPM"
                   />
                 </TouchableOpacity>
@@ -258,7 +258,7 @@ const HomeScreen = () => {
                   <UnitCard
                     clip={require("../assets/parameters/tss.png")}
                     param="Total Suspended Solids"
-                    value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
+                    value={data.tss !== null ? data.tss : "Loading..."}
                     unit="mg/L"
                   />
                 </TouchableOpacity>
