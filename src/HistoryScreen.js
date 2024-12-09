@@ -30,14 +30,14 @@ export default function HistoryScreen() {
   //   location: null,
   //   timestamp: null,
   // });
-  
+
   const fetchData = async () => {
     try {
       const { data: sensor_data, error } = await supabase
         .from("sensor_data")
         .select("temperature, tss, tds_ppm, pH, location, timestamp")
         .order("timestamp", { ascending: false })
-        .limit(5); // Fetch the most recent 5 records
+        .limit(20); // Fetch the most recent 5 records
 
       if (error) {
         console.error("Error fetching data:", error.message);
@@ -71,7 +71,9 @@ export default function HistoryScreen() {
   // New TDS-specific remark handler
   const tdsRemarkMessage = (record) => {
     if (record === null || record === undefined) return "Loading...";
-    return record <= 500 ? "in acceptable range." : "shows Abnormal Measurements!";
+    return record <= 500
+      ? "in acceptable range."
+      : "shows Abnormal Measurements!";
   };
 
   // AQUATIC THRESHOLD
@@ -113,7 +115,9 @@ export default function HistoryScreen() {
           </View>
         </View>
 
-        <ScrollView style={{ flex: 1, paddingHorizontal: 30,marginBottom: '5%', }}>
+        <ScrollView
+          style={{ flex: 1, paddingHorizontal: 30, marginBottom: "5%" }}
+        >
           {data.map((record, index) => (
             <View key={index}>
               <View
