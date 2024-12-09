@@ -4,7 +4,7 @@
     "slug": "riverMonitor",
     "version": "1.0.0",
     "sdkVersion": "52.0.0",
-    "newArchEnabled": true, 
+    "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/img/logo.png",
     "userInterfaceStyle": "light",
@@ -20,13 +20,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/img/logo.png",
         "backgroundColor": "#7A6FCB"
-      }
+      },
+      "package": "com.zedrix.riverMonitor"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "927d32cf-dbea-457c-abcb-9f675a897bec"
+      }
+    }
   }
 }

@@ -35,7 +35,7 @@ function CustomDrawerContent(props) {
           <View style={styles.drawerHeader}>
             <Image
               style={{ width: 150, height: 150 }}
-              source={require("../riverMonitor/assets/img/logo.png")}
+              source={require("./assets/img/logo.png")}
             />
           </View>
           <DrawerItemList {...props} />
