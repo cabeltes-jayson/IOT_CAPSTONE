@@ -182,12 +182,14 @@ const HomeScreen = () => {
         style={styles.linearBg}
         source={require("../assets/img/bg.png")}
       >
-        <TouchableOpacity onPress={openDrawer}>
-          <Icon name="menu" color={colors.primary} size={25} />
-        </TouchableOpacity>
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
+        <View style={{ paddingHorizontal: 10 }}>
+          <TouchableOpacity onPress={openDrawer}>
+            <Icon name="menu" color={colors.primary} size={30} />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flex: 1,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -293,7 +295,7 @@ const HomeScreen = () => {
               </View>
             </View>
           </LinearGradient>
-        </ScrollView>
+        </View>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -345,7 +347,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
-    marginVertical: 10,
+    marginVertical: 5,
     width: 300,
   },
   gradientContainer: {
@@ -364,7 +366,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 50,
     borderBottomLeftRadius: 50,
     elevation: 10,
-    height: 180,
+    height: 120,
   },
   locationContent: {
     flex: 1,
@@ -381,7 +383,7 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     color: colors.primary,
     fontWeight: "600",
-    fontSize: 18,
+    fontSize: 13,
   },
   unitCardsContainer: {
     flex: 2,

@@ -11,7 +11,7 @@ const ParamAlert = ({ value, unit, param, img }) => {
         justifyContent: "space-around",
         borderBottomWidth: 1,
         borderBottomColor: colors.white,
-        paddingVertical: 19,
+        paddingVertical: 15,
       }}
     >
       {/* Image */}
@@ -22,7 +22,10 @@ const ParamAlert = ({ value, unit, param, img }) => {
           flex: 1,
         }}
       >
-        <Image source={img} style={{ width: 40, height: 40 }} />
+        <Image
+          source={img}
+          style={{ width: 40, height: 40, resizeMode: "contain" }}
+        />
       </View>
 
       {/* Value */}
@@ -55,7 +58,7 @@ const ParamAlert = ({ value, unit, param, img }) => {
         <Text style={{ fontSize: 18, color: colors.white, fontWeight: "900" }}>
           {unit}
         </Text>
-        <Text style={{ fontSize: 18, color: colors.white }}>{param}</Text>
+        <Text style={{ fontSize: 16, color: colors.white }}>{param}</Text>
       </View>
     </View>
   );

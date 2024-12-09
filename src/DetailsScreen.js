@@ -81,50 +81,56 @@ const DetailsScreen = () => {
             </View>
             {/* pH parameter */}
             <View style={styles.header}>
-              <Text style={{ width: 100, fontSize: 18, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 15, fontWeight: "500" }}>
                 pH
               </Text>
-              <Text style={{ width: 100, fontSize: 18, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 15, fontWeight: "500" }}>
                 6.5–8.5
               </Text>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 Ensures water is neither too acidic nor too alkaline,
-                safeguarding aquatic ecosystems.
+                safeguarding aquatic ecosystems
               </Text>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text
+                style={{
+                  width: 90,
+                  fontSize: 14,
+                  fontWeight: "500",
+                }}
+              >
                 Acidic water increases metal solubility; alkaline water reduces
-                nutrient availability, both harming aquatic life.
+                nutrient availability, both harming aquatic life
               </Text>
             </View>
             {/* temp */}
             <View style={styles.header}>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 Temperature
               </Text>
-              <Text style={{ width: 100, fontSize: 18, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 15, fontWeight: "500" }}>
                 26–30°C
               </Text>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 Supports aquatic life and prevents thermal stress.
               </Text>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 Lower temperatures slow metabolism; higher temperatures reduce
                 dissolved oxygen and promote algal blooms.
               </Text>
             </View>
             {/* TSS */}
             <View style={styles.header}>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 Total Suspendend Solids
               </Text>
-              <Text style={{ width: 100, fontSize: 18, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 15, fontWeight: "500" }}>
                 50 mg/L
               </Text>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 Prevents sedimentation and ensures water clarity for aquatic
                 habitats.
               </Text>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 High TSS reduces sunlight penetration, affects photosynthesis,
                 and smothers habitats.
               </Text>
@@ -138,7 +144,7 @@ const DetailsScreen = () => {
                 Philippine Standards for Drinking Water
               </Text>
             </View>
-            <Text style={{ textAlign: "center", fontSize: 17 }}>
+            <Text style={{ textAlign: "center", fontSize: 16 }}>
               The researchers reviewed the Philippine National Standards for
               Drinking Water 2007 (PNSDW) to understand health risks in rivers
               where people might accidentally drink the water. These standards
@@ -154,17 +160,17 @@ const DetailsScreen = () => {
             </View>
             {/* TSS */}
             <View style={styles.header}>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 Total Dissolved Solids
               </Text>
-              <Text style={{ width: 100, fontSize: 18, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 15, fontWeight: "500" }}>
                 ≤ 500 mg/L
               </Text>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 Ensures water is safe for human consumption and free from
                 excessive minerals affecting taste.
               </Text>
-              <Text style={{ width: 100, fontSize: 16, fontWeight: "500" }}>
+              <Text style={{ width: 90, fontSize: 14, fontWeight: "500" }}>
                 High TDS may signal contamination, affect taste, and harm
                 ecosystems through mineral buildup and scaling.
               </Text>
@@ -210,7 +216,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 14,
     color: colors.primary,
     fontWeight: "900",
   },

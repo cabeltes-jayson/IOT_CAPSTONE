@@ -24,6 +24,9 @@ const AlertScreen = () => {
   const backBtn = () => {
     navigation.goBack();
   };
+  const directDetails = () => {
+    navigation.navigate("Details");
+  };
 
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
@@ -135,7 +138,7 @@ const AlertScreen = () => {
             <Icon name="chevron-back" color={colors.primary} size={25} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Alert</Text>
-          <TouchableOpacity onPress={() => setOpenModal(true)}>
+          <TouchableOpacity onPress={directDetails}>
             <Icon name="information-circle" color={colors.primary} size={25} />
           </TouchableOpacity>
         </View>
@@ -188,7 +191,7 @@ const AlertScreen = () => {
           </ScrollView>
         </View>
 
-        <Modal animationType="slide" transparent={true} visible={openModal}>
+        {/* <Modal animationType="slide" transparent={true} visible={openModal}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>
@@ -314,7 +317,7 @@ const AlertScreen = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
       </ImageBackground>
     </SafeAreaView>
   );
@@ -361,23 +364,22 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   remarksContainer: {
-    flexDirection: "row",
     justifyContent: "center", // Distributes space between items
     alignItems: "center", // Aligns items vertically in the center
     backgroundColor: colors.white,
     width: "100%",
-    height: height * 0.3,
+    height: height * 0.2,
     borderWidth: 2,
     borderColor: colors.primary,
     borderRadius: 40,
-    padding: 20,
+    // padding: 20,
     marginBottom: 20,
   },
   remarksText: {
-    fontSize: 20,
+    fontSize: 17,
     color: colors.primary,
-    fontWeight: "600",
-    textAlign: "center",
+    fontWeight: "500",
+    // textAlign: "center",
   },
   logo: {
     width: 100,

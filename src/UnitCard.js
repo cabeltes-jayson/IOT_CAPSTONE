@@ -40,13 +40,13 @@ const UnitCard = ({ clip, param, value, unit }) => {
       {/* Dynamic Image */}
       <Image
         source={clip} // Use the clip prop dynamically
-        style={{ width: 40, height: 40, resizeMode: "contain" }}
+        style={{ width: 25, height: 25, resizeMode: "contain" }}
       />
 
       <Text
         style={{
           color: colors.primary,
-          fontSize: 13,
+          fontSize: 10,
           fontWeight: "bold",
         }}
       >
@@ -57,7 +57,7 @@ const UnitCard = ({ clip, param, value, unit }) => {
       <Text
         style={{
           fontWeight: "800",
-          fontSize: 18,
+          fontSize: 14,
           color: valueColor, // Apply dynamic color to value
         }}
       >

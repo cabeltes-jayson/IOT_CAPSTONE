@@ -62,15 +62,13 @@ const AboutUs = () => {
           </Text>
         </ScrollView>
 
-        <TouchableOpacity style={styles.learnMoreButton}>
-          <Text
-            style={styles.learnMoreButtonText}
-            onPress={() => {
-              navigation.navigate("Details");
-            }}
-          >
-            Learn More
-          </Text>
+        <TouchableOpacity
+          style={styles.learnMoreButton}
+          onPress={() => {
+            navigation.navigate("Details");
+          }}
+        >
+          <Text style={styles.learnMoreButtonText}>Learn More</Text>
         </TouchableOpacity>
       </ImageBackground>
     </SafeAreaView>
@@ -138,7 +136,7 @@ const styles = StyleSheet.create({
   missionText: {
     fontStyle: "italic",
     textTransform: "uppercase",
-    fontSize: width * 0.045,
+    fontSize: width * 0.038,
     color: colors.white,
     textAlign: "left",
     lineHeight: width * 0.055,

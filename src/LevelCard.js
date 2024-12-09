@@ -94,7 +94,7 @@ const LevelCard = ({ label, value, unit, date, time, min, max }) => {
         }}
       >
         <Image
-          style={{ width: 270, height: 270 }}
+          style={{ width: 225, height: 225 }}
           source={require("../assets/img/chart.png")}
         />
 
