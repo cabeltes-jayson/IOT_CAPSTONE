@@ -145,6 +145,11 @@ export default function HistoryScreen() {
                   {/* {data.timestamp !== null ? data.timestamp : "Loading..."} */}
                   {formatTimestamp(record.timestamp)}
                 </Text>
+                <Text
+                  style={{ fontWeight: "bold", color: colors.secondaryFont }}
+                >
+                  DARI ANG TIME
+                </Text>
               </View>
               <LinearGradient
                 colors={["rgba(148,220,245, 1)", "rgba(86, 128, 143, 0.1)"]}

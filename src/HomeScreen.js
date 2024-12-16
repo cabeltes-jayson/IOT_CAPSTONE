@@ -198,6 +198,19 @@ const HomeScreen = () => {
             <Modal animationType="fade" transparent visible={alertVisible}>
               <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
+                  <View style={{ alignSelf: "flex-end" }}>
+                    <TouchableOpacity onPress={() => setAlertVisible(false)}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: colors.primary,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        X
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                   <Image source={require("../assets/warning.png")} />
                   <Text style={styles.modalText}>{alertMessage}</Text>
                   <Text
