@@ -59,7 +59,8 @@ const HomeScreen = () => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const isFocused = useIsFocused();
-
+  const [lastClosedTime, setLastClosedTime] = useState(null); // Track last closed time
+  
   const [data, setData] = useState({
     temperature: null,
     tss: null,
@@ -75,45 +76,69 @@ const HomeScreen = () => {
         .select("temperature, tss, tds_ppm, pH, location")
         .order("timestamp", { ascending: false })
         .limit(1);
-
+  
       if (error) {
         console.error("Error fetching sensor data:", error.message);
         return;
       }
-
+  
       if (sensorData && sensorData[0]) {
-        const { temperature, tss, tds_ppm, pH } = sensorData[0];
-        setData(sensorData[0]);
-
+        // Update the state with the fetched data
+        setData({
+          temperature: sensorData[0].temperature,
+          tss: sensorData[0].tss,
+          tds_ppm: sensorData[0].tds_ppm,
+          pH: sensorData[0].pH,
+          location: sensorData[0].location,
+        });
+  
+        // Check for alerts
         const messages = [];
-        if (tss > 60) messages.push("TSS ALERT!");
+        const { temperature, tss, tds_ppm, pH } = sensorData[0];
+  
+        if (tss > 50) messages.push("TSS ALERT!");
         if (tds_ppm > 500) messages.push("TDS ALERT!");
-        if (temperature > 40) messages.push("Temperature ALERT!");
-        if (pH < 6.0 || pH > 9.0) messages.push("pH ALERT!");
-
+        if (temperature > 30) messages.push("Temperature ALERT!");
+        if (pH < 6.5 || pH > 8.5) messages.push("pH ALERT!");
+  
+        const now = new Date().getTime();
+        const newAlertMessage = messages.join("\n");
+  
+        // 300000 for 5 mins || 10000 for 10 secs
         if (messages.length > 0) {
-          setAlertMessage(messages.join("\n"));
-          setAlertVisible(true);
+          if (
+            (!alertVisible && (!lastClosedTime || now - lastClosedTime >= 300000)) ||
+            alertMessage !== newAlertMessage
+          ) {
+            setAlertMessage(newAlertMessage);
+            setAlertVisible(true);
+          }
         } else {
           setAlertVisible(false);
+          setAlertMessage("");
         }
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };  
+  
+  const handleAlertDismiss = () => {
+    setAlertVisible(false);
+    setLastClosedTime(new Date().getTime()); // Record dismissal time
   };
-
+  
+  
   useEffect(() => {
     if (!isFocused) {
       return;
     }
-
-    const interval = setInterval(fetchDataAndAlert, 2000);
-
+  
+    const interval = setInterval(fetchDataAndAlert, 2000); // Check every 2 seconds
     return () => {
       clearInterval(interval);
     };
-  }, [isFocused]);
+  }, [isFocused, lastClosedTime]); // Re-run when `lastClosedTime` changes  
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -166,7 +191,7 @@ const HomeScreen = () => {
           <LevelCard
             label="TDS"
             value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
-            unit="PPM"
+            unit="mg/L"
             date={formattedDate}
             time={formattedTime}
             min={0}
@@ -199,7 +224,7 @@ const HomeScreen = () => {
               <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
                   <View style={{ alignSelf: "flex-end" }}>
-                    <TouchableOpacity onPress={() => setAlertVisible(false)}>
+                    <TouchableOpacity onPress={handleAlertDismiss}>
                       <Text
                         style={{
                           fontSize: 20,
@@ -226,10 +251,7 @@ const HomeScreen = () => {
                   </Text>
                   <TouchableOpacity
                     style={styles.modalButton}
-                    onPress={() => {
-                      setAlertVisible(false);
-                      navigation.navigate("Alert");
-                    }}
+                    onPress={handleAlertDismiss}
                   >
                     <Text style={styles.modalButtonText}>View Alert</Text>
                   </TouchableOpacity>
@@ -263,7 +285,7 @@ const HomeScreen = () => {
                     clip={require("../assets/parameters/turbidity.png")}
                     param="Total Dissolved Solids"
                     value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
-                    unit="PPM"
+                    unit="mg/L"
                   />
                 </TouchableOpacity>
                 <TouchableOpacity

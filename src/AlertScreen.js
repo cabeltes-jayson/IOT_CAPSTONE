@@ -175,7 +175,7 @@ const AlertScreen = () => {
               img={require("../assets/parameters/tss.png")}
             />
             <ParamAlert
-              unit={"PPM"}
+              unit={"mg/L"}
               param={"TDS"}
               value={data.tds_ppm !== null ? data.tds_ppm : "Loading..."}
               img={require("../assets/parameters/turbidity.png")}

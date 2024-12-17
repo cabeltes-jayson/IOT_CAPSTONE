@@ -62,11 +62,24 @@ export default function HistoryScreen() {
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
+    
+    // Format date
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     const year = date.getFullYear();
-    return `${month}/${day}/${year}`;
-  };
+  
+    // Format time to 12-hour
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+    const amPm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+  
+    return {
+      date: `${month}/${day}/${year}`,
+      time: `${hours}:${minutes}:${seconds} ${amPm}`,
+    };
+  };  
 
   // New TDS-specific remark handler
   const tdsRemarkMessage = (record) => {
@@ -143,12 +156,13 @@ export default function HistoryScreen() {
                 >
                   {/* DARI ANG DATE */}
                   {/* {data.timestamp !== null ? data.timestamp : "Loading..."} */}
-                  {formatTimestamp(record.timestamp)}
+                  {formatTimestamp(record.timestamp).date}
                 </Text>
                 <Text
                   style={{ fontWeight: "bold", color: colors.secondaryFont }}
                 >
-                  DARI ANG TIME
+                  {/* DARI ANG TIME */}
+                  {formatTimestamp(record.timestamp).time}
                 </Text>
               </View>
               <LinearGradient
