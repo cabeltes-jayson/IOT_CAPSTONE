@@ -251,7 +251,11 @@ const HomeScreen = () => {
                   </Text>
                   <TouchableOpacity
                     style={styles.modalButton}
-                    onPress={handleAlertDismiss}
+                    // onPress={handleAlertDismiss}
+                    onPress={() => {
+                      handleAlertDismiss();
+                      navigation.navigate("Alert");
+                    }}
                   >
                     <Text style={styles.modalButtonText}>View Alert</Text>
                   </TouchableOpacity>
